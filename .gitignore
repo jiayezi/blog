@@ -1,0 +1,10 @@
+# Hugo default output
+public/
+resources/
+.hugo_build.lock
+
+# Executables
+hugo.exe
+
+# 忽略上传的图片
+static/uploads/

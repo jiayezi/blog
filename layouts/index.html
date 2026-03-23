@@ -1,0 +1,472 @@
+{{ define "main" }}
+
+<style>
+    /* 重置 PaperMod 默认的主容器宽度以适应网格 */
+    .main {
+        max-width: 1200px;
+    }
+
+    /* 页面主布局容器 */
+    .home-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 50px;
+    }
+
+    /* 头部介绍区域 */
+    .home-hero {
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .home-hero h1 {
+        font-size: 1.5rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+        color: var(--primary);
+        /* 适配亮暗主题 */
+    }
+
+    .home-hero p {
+        font-size: 1.1rem;
+        color: var(--secondary);
+        margin-bottom: 30px;
+    }
+
+    /* 搜索元素 */
+    .home-search {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .home-search input {
+        height: 48px;
+        padding: 0 24px;
+        border-radius: 24px;
+        border: 1.5px solid var(--border);
+        background-color: var(--entry);
+        color: var(--primary);
+        width: 100%;
+        max-width: 360px;
+        font-size: 1rem;
+        outline: none;
+        transition: all 0.3s ease;
+    }
+
+    .home-search input:focus {
+        border-color: #FF8904;
+        box-shadow: 0 0 0 3px rgba(255, 137, 4, 0.15);
+    }
+
+    .home-search button {
+        height: 48px;
+        width: 48px;
+        border-radius: 50%;
+        background-color: #FF8904;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        transition: transform 0.2s ease, background-color 0.2s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .home-search button:hover {
+        transform: scale(1.08);
+        background-color: #e67a00;
+    }
+
+    /* 卡片网格系统 */
+    .home-entry-cards {
+        display: grid;
+        /* 自动响应式列数分配，最低每列260px宽 */
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 24px;
+        width: 100%;
+    }
+
+    /* 独立的卡片设计 */
+    .home-card {
+        position: relative;
+        border-radius: 16px;
+        overflow: hidden;
+        min-height: 15rem;
+        height: 50vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 24px;
+        text-decoration: none;
+        /* 使用统一的 all 使边界、阴影、放大变得平滑 */
+        transition: all 0.4s ease-out;
+        border: 1px solid var(--border);
+        background-size: cover;
+        background-position: center;
+    }
+
+    /* 底层暗黑渐变 */
+    .home-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to bottom, rgba(20, 20, 22, 0.1) 0%, rgba(20, 20, 22, 0.75) 100%);
+        z-index: 1;
+    }
+
+    /* 附加的深色渐变层，利用 opacity 进行完美性能动画 */
+    .home-card::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to bottom, rgba(20, 20, 22, 0.3) 0%, rgba(20, 20, 22, 0.75) 100%);
+        z-index: 1;
+        opacity: 0;
+        transition: opacity 0.4s ease-out;
+    }
+
+    .home-card:hover {
+        transform: translateY(-8px) scale(1.04);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        border-color: #FF8904;
+    }
+
+    /* 暗色模式下卡片悬浮阴影调整 */
+    [data-theme="dark"] .home-card:hover {
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+    }
+
+    .home-card:hover::after {
+        opacity: 1;
+    }
+
+    .home-card-content {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .home-card-badge {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #fff;
+        padding: 6px 14px;
+        border-radius: 16px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        z-index: 2;
+    }
+
+    .home-card-subtitle {
+        font-size: 0.8rem;
+        letter-spacing: 3px;
+        opacity: 0.8;
+        margin-bottom: 4px;
+        color: #fff;
+    }
+
+    .home-card-title {
+        font-size: 1.5rem;
+        font-weight: 800;
+        margin-bottom: 16px;
+        color: #fff;
+        /* 强制白色，不受主题控制 */
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .home-card-desc {
+        font-size: 0.95rem;
+        color: rgba(255, 255, 255, 0.9);
+        /* 高级悬浮效果：非 hover 时折叠文字内容 */
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease, opacity 0.4s ease, margin-bottom 0.4s ease;
+    }
+
+    /* Hover 时展开简介文字 */
+    .home-card:hover .home-card-desc {
+        max-height: 100px;
+        opacity: 1;
+        margin-bottom: 16px;
+    }
+
+    .home-card-action {
+        display: inline-block;
+        padding: 10px 24px;
+        background-color: #FF8904;
+        color: #fff;
+        border-radius: 24px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        text-align: center;
+        width: max-content;
+        transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .home-card:hover .home-card-action {
+        background-color: #e67a00;
+    }
+
+    /* 背景图片 */
+    .bg-myth {
+        background-image: url('/uploads/the_sinner_ii_by_xetobyte.jpg');
+    }
+
+    .bg-truth {
+        background-image: url('/uploads/Trip-to-the-preliminary-edge-of-things-by-Frank-Gustrau-square.jpg');
+    }
+
+    .bg-culture {
+        background-image: url('/uploads/Mandala-Sand-Painting-1080x720.jpg');
+    }
+
+    .bg-space {
+        background-image: url('/uploads/the-gate-by-roger-creus-dorico-1080x675.jpg');
+    }
+
+    /* 底部区域 */
+    .home-footer-text {
+        text-align: center;
+        color: var(--secondary);
+        font-size: 1.1rem;
+        margin-bottom: 24px;
+    }
+
+    .home-footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        flex-wrap: wrap;
+    }
+
+    .home-footer-links a {
+        padding: 10px 24px;
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        color: var(--primary);
+        text-decoration: none;
+        font-size: 0.95rem;
+        font-weight: 500;
+        background-color: var(--entry);
+        transition: all 0.2s ease;
+    }
+
+    .home-footer-links a:hover {
+        border-color: #FF8904;
+        color: #FF8904;
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(255, 137, 4, 0.15);
+    }
+
+    /* 进场动画 */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-1 {
+        animation: fadeInUp 0.7s ease backwards 0.1s;
+    }
+
+    .animate-2 {
+        animation: fadeInUp 0.7s ease backwards 0.2s;
+    }
+
+    .animate-3 {
+        animation: fadeInUp 0.7s ease backwards 0.3s;
+    }
+
+    .animate-4 {
+        animation: fadeInUp 0.7s ease backwards 0.4s;
+    }
+
+    /* 响应式调整 */
+    @media screen and (max-width: 768px) {
+        .home-card {
+            height: 400px;
+        }
+
+        /* 手机端由于没有鼠标悬浮，一直显示简介内容 */
+        .home-card-desc {
+            max-height: 200px;
+            opacity: 1;
+            margin-bottom: 16px;
+        }
+    }
+
+    /* 标签云样式 */
+    .tag-cloud-wrapper {
+        padding: 40px 20px;
+        background: var(--entry);
+        border-radius: 20px;
+        border: 1px solid var(--border);
+        text-align: center;
+    }
+
+    .tag-cloud-title {
+        font-size: 1.4rem;
+        font-weight: 800;
+        margin-bottom: 30px;
+        color: var(--primary);
+        letter-spacing: 1px;
+    }
+
+    .tag-cloud-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .tag-cloud-item {
+        padding: 6px 16px;
+        border-radius: 20px;
+        color: var(--primary);
+        background: var(--theme);
+        border: 1px solid var(--border);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        line-height: 1.2;
+    }
+
+    .tag-cloud-item:hover {
+        background: #FF8904;
+        color: #fff;
+        border-color: #FF8904;
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 10px 20px rgba(255, 137, 4, 0.2);
+    }
+
+    .tag-count {
+        font-size: 0.75rem;
+        margin-left: 6px;
+        opacity: 0.5;
+        font-weight: 400;
+    }
+
+    .tag-cloud-item:hover .tag-count {
+        opacity: 1;
+    }
+</style>
+
+<div class="home-wrapper">
+    <div class="home-hero">
+        <h1>探索人类文明的隐秘档案室</h1>
+        <p>神话不是传说，历史不止表象。选择一条探索之路，开启你与文明的秘密对话。</p>
+        <form class="home-search" role="search" method="get" action="/search/">
+            <input type="search" name="q" placeholder="输入关键词开始探寻..." required />
+            <button type="submit" aria-label="搜索">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </button>
+        </form>
+    </div>
+
+    <!-- 移除了原有的 section，改用 div 避免 PaperMod 默认将 section 定义为 block 且强制限制功能 -->
+    <div class="home-entry-cards">
+
+        <!-- 神话之门 -->
+        <a href="/archives/category/myth" class="home-card bg-myth animate-1">
+            <div class="home-card-badge">序章 I</div>
+            <div class="home-card-content">
+                <p class="home-card-subtitle">MYTH</p>
+                <h2 class="home-card-title">神话之门</h2>
+                <p class="home-card-desc">追溯远古的足迹，探寻神话背后隐藏的智慧与科技。</p>
+                <span class="home-card-action">进入探索 →</span>
+            </div>
+        </a>
+
+        <!-- 真相之镜 -->
+        <a href="/archives/category/truth" class="home-card bg-truth animate-2">
+            <div class="home-card-badge">序章 II</div>
+            <div class="home-card-content">
+                <p class="home-card-subtitle">TRUTH</p>
+                <h2 class="home-card-title">真相之镜</h2>
+                <p class="home-card-desc">看清世界的根源和本质，直面隐藏在现实背后的力量。</p>
+                <span class="home-card-action">进入探索 →</span>
+            </div>
+        </a>
+
+        <!-- 文化之光 -->
+        <a href="/archives/category/culture" class="home-card bg-culture animate-3">
+            <div class="home-card-badge">序章 III</div>
+            <div class="home-card-content">
+                <p class="home-card-subtitle">CULTURE</p>
+                <h2 class="home-card-title">文化之光</h2>
+                <p class="home-card-desc">追溯文化的起源与演变，解读传统背后的哲思与智慧。</p>
+                <span class="home-card-action">进入探索 →</span>
+            </div>
+        </a>
+
+        <!-- 时空之钥 -->
+        <a href="/archives/category/spacetime" class="home-card bg-space animate-4">
+            <div class="home-card-badge">序章 IV</div>
+            <div class="home-card-content">
+                <p class="home-card-subtitle">SPACETIME</p>
+                <h2 class="home-card-title">时空之钥</h2>
+                <p class="home-card-desc">解读行星与文明的真实历史，探寻时空与维度的奥秘。</p>
+                <span class="home-card-action">进入探索 →</span>
+            </div>
+        </a>
+
+    </div>
+
+    <!-- 标签云区域 -->
+    <section class="tag-cloud-wrapper animate-4">
+        <h2 class="tag-cloud-title">探索热门话题</h2>
+        <div class="tag-cloud-container">
+            <!-- ByCount 降序排列，并取前 20 个 -->
+            {{- range first 20 .Site.Taxonomies.tags.ByCount -}}
+            {{- $fontSize := add 0.9 (mul 0.05 .Count) -}}
+            <a href="{{ .Page.RelPermalink }}" class="tag-cloud-item" style="{{ printf " font-size: %.2frem;" $fontSize
+                | safeCSS }}">
+                {{ .Page.Title }}
+                <span class="tag-count">{{ .Count }}</span>
+            </a>
+            {{- end }}
+        </div>
+    </section>
+
+
+    <div>
+        <div class="home-footer-text">
+            带上你的好奇与勇气吧，每一次点击，都是一场穿越未知的旅程。
+        </div>
+        <div class="home-footer-links">
+            <a href="/search/">全局搜索</a>
+            <a href="/guide">阅读指导</a>
+            <a href="/faq">常见问题</a>
+            <a href="/about">关于页面</a>
+        </div>
+    </div>
+</div>
+
+{{ end }}

@@ -1,0 +1,15 @@
+/* 图片居中 */
+.post-content img {
+    margin: 0 auto 1rem
+}
+
+/* 粘性页眉 */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--theme);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s ease;
+    /* 切换主题的动画 */
+}

@@ -1,0 +1,309 @@
+{{ define "main" }}
+
+<style>
+    /* 针对 FAQ 页宽度的优化 */
+    .main {
+        max-width: 900px;
+    }
+
+    .faq-wrapper {
+        line-height: 1.8;
+    }
+
+    .faq-title {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: var(--primary);
+        margin-bottom: 16px;
+    }
+
+    .faq-subtitle {
+        font-size: 1.05rem;
+        color: var(--secondary);
+        margin-bottom: 40px;
+    }
+
+    /* 对话框外层容器 */
+    .chat-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        background-color: var(--theme);
+        padding: 30px;
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    [data-theme="dark"] .chat-container {
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .chat-end {
+        align-self: flex-end;
+        align-items: flex-end;
+    }
+
+    .chat-start {
+        align-self: flex-start;
+        align-items: flex-start;
+    }
+
+    .chat-header {
+        font-size: 0.85rem;
+        color: var(--secondary);
+        margin-bottom: 6px;
+        padding: 0 8px;
+        font-weight: 500;
+    }
+
+    .chat-bubble {
+        padding: 14px 20px;
+        border-radius: 16px;
+        font-size: 1.05rem;
+        line-height: 1.6;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    /* 提问气泡（右侧）使用主背景色 */
+    .chat-end .chat-bubble {
+        background-color: var(--entry);
+        color: var(--primary);
+        border: 1px solid var(--border);
+        border-bottom-right-radius: 4px;
+    }
+
+    /* 回答气泡（左侧）使用主题橙色高亮 */
+    .chat-start .chat-bubble {
+        background-color: rgba(255, 137, 4, 0.1);
+        border: 1px solid rgba(255, 137, 4, 0.2);
+        color: var(--primary);
+        border-bottom-left-radius: 4px;
+    }
+
+    [data-theme="dark"] .chat-start .chat-bubble {
+        background-color: rgba(255, 137, 4, 0.15);
+        border-color: rgba(255, 137, 4, 0.3);
+    }
+
+    /* 分割线 */
+    .faq-divider {
+        height: 1px;
+        background-color: var(--border);
+        margin: 15px 0;
+        opacity: 0.6;
+    }
+
+    /* 底部引导栏CTA (Call to Action) */
+    .faq-cta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        margin-top: 10px;
+        padding: 24px;
+        background-color: var(--entry);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+    }
+
+    .faq-cta-text {
+        flex-grow: 1;
+    }
+
+    .faq-cta-text h3 {
+        font-size: 1.15rem;
+        color: var(--primary);
+        margin: 0 0 6px 0;
+        font-weight: bold;
+    }
+
+    .faq-cta-text p {
+        font-size: 0.95rem;
+        color: var(--secondary);
+        margin: 0;
+    }
+
+    .faq-cta-btn {
+        padding: 8px 16px;
+        background-color: #FF8904;
+        color: #fff;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 0.95rem;
+        transition: background-color 0.2s, transform 0.2s;
+    }
+
+    .faq-cta-btn:hover {
+        background-color: #e67a00;
+        transform: translateY(-2px);
+    }
+
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        .faq-cta {
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
+        }
+
+        .faq-cta-btn {
+            margin-top: 10px;
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>
+
+<div class="faq-wrapper">
+    <h1 class="faq-title">常见问题 FAQ</h1>
+    <p class="faq-subtitle">这里汇总了读者最常问的问题与回答。你也可以在文末通过评论与我交流。</p>
+
+    <div class="chat-container">
+
+        <!-- Q1 -->
+        <div class="chat chat-end">
+            <div class="chat-header">问题</div>
+            <div class="chat-bubble">你为什么懂这么多？</div>
+        </div>
+        <div class="chat chat-start">
+            <div class="chat-header">回答</div>
+            <div class="chat-bubble">
+                我的知识并非凭空而来，许多内容源于我一位特殊的老师。他曾参与过"光子矩阵系统"的设计，对历史、科技和文化有独特的见解。他传授给我大量的知识和记忆，这些内容让我得以拼接出不同寻常的视角。</div>
+        </div>
+
+        <div class="faq-divider"></div>
+
+        <!-- Q2 -->
+        <div class="chat chat-end">
+            <div class="chat-header">问题</div>
+            <div class="chat-bubble">你的文章内容可信吗？</div>
+        </div>
+        <div class="chat chat-start">
+            <div class="chat-header">回答</div>
+            <div class="chat-bubble">
+                这些文章大多基于我老师的经历、见闻和思考，其中有些部分难以用传统的证据验证。你可以把它们当作一系列高度启发性的故事或假设来看待，但请记住：许多故事之所以动人，是因为它们比任何虚构的故事更真实。</div>
+        </div>
+
+        <div class="faq-divider"></div>
+
+        <!-- Q3 -->
+        <div class="chat chat-end">
+            <div class="chat-header">问题</div>
+            <div class="chat-bubble">你文章中经常提到的"纳粹"和"光照派"指的是谁？</div>
+        </div>
+        <div class="chat chat-start">
+            <div class="chat-header">回答</div>
+            <div class="chat-bubble">
+                在我的文章中，"纳粹"和"光照派"并不是单指某一个群体，而是一个贯穿历史的隐秘势力的不同代称。这个势力在不同时期、不同背景下以不同的名称出现。从古代传说中的神秘组织，到现代历史中的"纳粹"与"光照派"，这些名称都是他们的面具。"纳粹"只是他们近代的代表，而"光照派"则是他们近期常用的称呼。
+            </div>
+        </div>
+
+        <div class="faq-divider"></div>
+
+        <!-- Q4 -->
+        <div class="chat chat-end">
+            <div class="chat-header">问题</div>
+            <div class="chat-bubble">你为什么要分享这些知识？</div>
+        </div>
+        <div class="chat chat-start">
+            <div class="chat-header">回答</div>
+            <div class="chat-bubble">因为未知和真相值得被记录。我希望通过这些文章，帮助读者更清晰地认识世界，理解过去发生了什么，以及它如何影响今天。更重要的是——让人们学会保持好奇、保持思考。
+            </div>
+        </div>
+
+        <div class="faq-divider"></div>
+
+        <!-- Q5 -->
+        <div class="chat chat-end">
+            <div class="chat-header">问题</div>
+            <div class="chat-bubble">这些文章适合哪些读者？</div>
+        </div>
+        <div class="chat chat-start">
+            <div class="chat-header">回答</div>
+            <div class="chat-bubble">
+                这些文章面向具备一定文化基础和生活阅历，对文化、历史、科技等领域有浓厚兴趣，并且愿意深入思考的读者。很多内容信息密度高，可能需要慢读和反复思考；如果你喜欢推理、解谜或探索未知，这里会让你兴奋。</div>
+        </div>
+
+        <div class="faq-divider"></div>
+
+        <!-- Q6 -->
+        <div class="chat chat-end">
+            <div class="chat-header">问题</div>
+            <div class="chat-bubble">读完这些文章后，我该怎么做？</div>
+        </div>
+        <div class="chat chat-start">
+            <div class="chat-header">回答</div>
+            <div class="chat-bubble">保持理性和开放。你可以选择去验证、去思考、去交流。最重要的是学会辨别——识别骗局、理解社会运作的本质，并把有价值的信息分享给更多人。</div>
+        </div>
+
+        <div class="faq-divider"></div>
+
+        <!-- Q7 -->
+        <div class="chat chat-end">
+            <div class="chat-header">问题</div>
+            <div class="chat-bubble">如果我对文章内容有疑问，可以联系你吗？</div>
+        </div>
+        <div class="chat chat-start">
+            <div class="chat-header">回答</div>
+            <div class="chat-bubble">当然可以。你可以在评论区留言，或通过"关于"页面中提供的联系方式找到我。我会尽量回复每一个有深度的问题。</div>
+        </div>
+
+        <div class="faq-divider"></div>
+
+        <!-- Q8 -->
+        <div class="chat chat-end">
+            <div class="chat-header">问题</div>
+            <div class="chat-bubble">如果有不同观点，可以和你讨论吗？</div>
+        </div>
+        <div class="chat chat-start">
+            <div class="chat-header">回答</div>
+            <div class="chat-bubble">非常欢迎。这里不是"唯一答案"，而是一个思考的入口。理性的讨论和不同的声音，都能让内容更完整。</div>
+        </div>
+
+        <div class="faq-divider"></div>
+
+        <!-- Q9 -->
+        <div class="chat chat-end">
+            <div class="chat-header">问题</div>
+            <div class="chat-bubble">这些文章会持续更新吗？</div>
+        </div>
+        <div class="chat chat-start">
+            <div class="chat-header">回答</div>
+            <div class="chat-bubble">是的。我会不断整理、补充新的内容。每篇文章都是一个未完的档案，未来还会有更多"钥匙"被放上来。</div>
+        </div>
+
+        <div class="faq-divider"></div>
+
+        <!-- CTA栏 -->
+        <div class="faq-cta">
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z" />
+                </svg>
+            </div>
+            <div class="faq-cta-text">
+                <h3>还有问题？</h3>
+                <p>欢迎在下方评论区留言，或通过“关于”页面找到更多联系方式。</p>
+            </div>
+            <a href="#top" class="faq-cta-btn">回到顶部</a>
+        </div>
+
+    </div>
+</div>
+
+{{ end }}

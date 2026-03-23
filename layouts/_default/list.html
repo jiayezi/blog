@@ -1,0 +1,241 @@
+{{ define "main" }}
+
+<style>
+    /* 1. 容器与网格优化 */
+    .main {
+        max-width: 1200px;
+    }
+
+    .list-header {
+        margin-bottom: 40px;
+        padding: 0 10px;
+    }
+
+    .list-header h1 {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: var(--primary);
+        margin-bottom: 10px;
+    }
+
+    .post-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+        padding: 10px;
+    }
+
+    /* 2. 卡片动画与样式 */
+    .post-card {
+        background: var(--entry);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        height: 100%;
+    }
+
+    .post-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        border-color: #FF8904;
+    }
+
+    [data-theme="dark"] .post-card:hover {
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    }
+
+    .post-cover-wrapper {
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        background-color: var(--tertiary);
+        position: relative;
+    }
+
+    .post-cover-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .post-card:hover .post-cover-img {
+        transform: scale(1.1);
+    }
+
+    .post-content {
+        padding: 24px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .post-card-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin: 0 0 12px 0;
+        line-height: 1.4;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .post-card-excerpt {
+        font-size: 0.95rem;
+        color: var(--secondary);
+        line-height: 1.6;
+        margin-bottom: 20px;
+        flex-grow: 1;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .post-card-meta {
+        font-size: 0.8rem;
+        color: var(--secondary);
+        opacity: 0.7;
+        margin-top: auto;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    /* 3. 【核心修复】分页器样式重写 */
+    .pagination {
+        margin: 60px 0 40px 0;
+        display: flex;
+        justify-content: center;
+        /* 全球居排中心 */
+        gap: 12px;
+
+        padding: 0;
+        flex-wrap: wrap;
+        /* 适配移动端排列 */
+    }
+
+    /* 确保嵌套的 LI 和 A 样式一致 */
+    .pagination li {
+        display: inline-flex;
+    }
+
+    .pagination li a,
+    .pagination li span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 44px;
+        /* 解决字符长度大于等2时的挤压 */
+        height: 44px;
+        padding: 0 12px;
+        /* 添加左右间距，防止两位数显示不下 */
+        border-radius: 22px;
+        /* 增加圆角，更柔和 */
+        border: 1.5px solid var(--border);
+        background: transparent;
+        /* 彻底干掉 PaperMod 留下的背景残影（那个椭圆） */
+        color: var(--primary);
+        /* 保持与主题标题同色 */
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+        /* 禁止两位数换行排列 */
+        box-shadow: none;
+        /* 干掉可能的阴影层 */
+    }
+
+    /* 强制清除所有内部元素的干扰 */
+    .pagination li a *,
+    .pagination li span * {
+        background: none;
+        border: none;
+        box-shadow: none;
+    }
+
+    /* 当前活动页码样式：亮橙色底白色字 */
+    .pagination li.active a,
+    .pagination li.active span {
+        background-color: #FF8904;
+        border-color: #FF8904;
+        color: #fff;
+        /* 橙底白字，清晰可见 */
+    }
+
+    .pagination li a:hover:not(.active) {
+        border-color: #FF8904;
+        color: #FF8904;
+        transform: translateY(-3px);
+        background: rgba(255, 137, 4, 0.06);
+    }
+
+    /* 响应式断点 */
+    @media screen and (max-width: 1024px) {
+        .post-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media screen and (max-width: 640px) {
+        .post-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .post-cover-wrapper {
+            height: 180px;
+        }
+    }
+</style>
+
+<div class="list-container">
+    <header class="list-header">
+        <h1>{{ .Title }}</h1>
+        {{- if .Description }}
+        <p>{{ .Description }}</p>
+        {{- end }}
+    </header>
+
+    <div class="post-grid">
+        <!-- 这里的 (.Paginator 9).Pages 会强制 Hugo 按照 9 个进行分页 -->
+        {{- $paginator := .Paginate .Data.Pages 9 }}
+        {{- range $paginator.Pages }}
+        <a href="{{ .Permalink }}" class="post-card">
+            <div class="post-cover-wrapper">
+                {{- if .Params.featured_image }}
+                <img class="post-cover-img" src="{{ .Params.featured_image }}" alt="{{ .Title }}" loading="lazy">
+                {{- else }}
+                <div class="post-cover-img"
+                    style="background: linear-gradient(45deg, var(--border), var(--tertiary)); width:100%; height:100%;">
+                </div>
+                {{- end }}
+            </div>
+            <div class="post-content">
+                <div class="post-card-title">{{ .Title }}</div>
+                <div class="post-card-excerpt">
+                    {{- if .Params.excerpt }}
+                    {{ .Params.excerpt | plainify }}
+                    {{- else }}
+                    {{ .Summary | plainify | truncate 100 }}
+                    {{- end }}
+                </div>
+                <div class="post-card-meta">
+                    <span>📅 {{ .Date.Format "2006-01-02" }}</span>
+                    <span>⏱️ {{ .ReadingTime }} min</span>
+                </div>
+            </div>
+        </a>
+        {{- end }}
+    </div>
+
+    <!-- 同样使用刚才显式定义的变量 -->
+    {{- partial "pagination.html" . }}
+</div>
+
+{{ end }}

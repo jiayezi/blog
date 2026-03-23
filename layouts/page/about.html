@@ -1,0 +1,240 @@
+{{ define "main" }}
+
+<style>
+    /* 针对关于页宽度的优化 */
+    .main {
+        max-width: 900px;
+    }
+
+    .about-wrapper {
+        color: var(--content);
+        line-height: 1.8;
+    }
+
+    .about-section {
+        margin-bottom: 50px;
+    }
+
+    /* 标题样式 */
+    .about-section h1 {
+        color: var(--primary);
+        font-weight: 700;
+        margin-bottom: 20px;
+        font-size: 1.5rem;
+    }
+
+    /* 序言章节使用斜体和更宽松的间距 */
+    .about-prologue {
+        font-style: italic;
+        color: var(--secondary);
+        font-size: 1.05rem;
+        margin-bottom: 40px;
+    }
+
+    .about-prologue p {
+        margin-bottom: 8px;
+    }
+
+    .about-text p {
+        margin-bottom: 16px;
+        font-size: 1.05rem;
+    }
+
+    .about-text strong {
+        color: var(--primary);
+        font-weight: 700;
+    }
+
+    /* 列表样式 */
+    .about-list {
+        list-style-type: disc;
+        padding-left: 24px;
+        margin-bottom: 20px;
+    }
+
+    .about-list li {
+        margin-bottom: 10px;
+        font-size: 1.05rem;
+    }
+
+    /* 链接样式 */
+    .about-link {
+        color: #FF8904;
+        text-decoration: none;
+        transition: color 0.2s ease;
+        font-weight: 500;
+    }
+
+    .about-link:hover {
+        color: #e67a00;
+        text-decoration: underline;
+    }
+
+    /* 二维码悬浮设计原生 CSS 实现 */
+    .qr-trigger-wrapper {
+        position: relative;
+        display: inline-block;
+        color: #FF8904;
+        cursor: pointer;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    .qr-trigger-wrapper:hover {
+        color: #e67a00;
+        text-decoration: underline;
+    }
+
+    .qr-popup {
+        display: none;
+        position: absolute;
+        bottom: 110%;
+        /* 浮在文字上方 */
+        left: 0;
+        background-color: var(--entry);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 8px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        z-index: 10;
+        animation: fadeIn 0.3s ease;
+    }
+
+    [data-theme="dark"] .qr-popup {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+    }
+
+    .qr-popup img {
+        width: 120px;
+        height: 120px;
+        max-width: 120px;
+        /*覆盖主题样式的max-width: 100%; */
+        border-radius: 4px;
+    }
+
+    /* 建立悬浮联系：只要鼠标在这个包裹层，或者菜单上，就一直保持显示 */
+    .qr-trigger-wrapper:hover .qr-popup {
+        display: block;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<div class="about-wrapper">
+
+    <!-- 序 -->
+    <section class="about-section about-prologue text-center md:text-left">
+        <h1>序</h1>
+        <p>在浩瀚的时间长河里，</p>
+        <p>真相常常被尘埃掩埋，</p>
+        <p>神话被误读为传说，</p>
+        <p>文化被遗忘成符号，</p>
+        <p>现实被遮蔽为幻象。</p>
+        <p>而在这些断裂与迷雾之间，</p>
+        <p>仍有碎片在低语，</p>
+        <p>它们等待被拾起，</p>
+        <p>等待被解读，</p>
+        <p>等待重归整体。</p>
+        <br>
+        <p>如果你正在阅读这些文字，</p>
+        <p>说明你已经推开了这扇门。</p>
+        <p>接下来的一切，或许会为你心中的困惑点亮一盏微光，</p>
+        <p>也可能在某个不经意的瞬间，彻底颠覆你的认知。</p>
+    </section>
+
+    <!-- 个人介绍 -->
+    <section class="about-section about-text">
+        <h1>个人介绍</h1>
+        <p>欢迎来到这里。这不是一间教室，也不是一份新闻，而更像是一座图书馆与迷宫的交汇处。你或许会在此找到一把钥匙，也可能会在思索中不断迷失。</p>
+        <p>我叫<strong>迦叶子</strong>。名字源自一个古老故事——<a href="/archives/616" target="_blank"
+                class="about-link">《佛祖拈花，迦叶一笑》</a>。白天，我是一名与数据和代码为伴的数据工程师，追求逻辑与效率；夜晚，我则与文字为友，把散落在历史、神话、现实与科学之间的碎片，拼接成线索与启示。
+        </p>
+        <p>我喜欢学习、写作、探索未知，也被"神秘"与"隐秘真相"所吸引。从神话传说到现实谜团，从古代文明到现代科技，它们如同灯塔，始终指引着我继续前行。</p>
+    </section>
+
+    <!-- 网站的诞生 -->
+    <section class="about-section about-text">
+        <h1>网站的诞生</h1>
+        <p>一切源自一段奇特的相遇。大学时，我结识了一位老师，他的学识与洞察力远超常人。和他交流的过程，就像不断开启一层层隐藏的密室：科学、历史、文化、哲学……许多曾经困扰我已久的问题，都在对话中逐渐被点亮。</p>
+        <p>这些知识太珍贵，不能只属于笔记本。起初我在知乎、公众号分享，但很快发现，有些内容过于"敏感"，往往会被无声地抹去。于是，我选择建造一个属于自己的角落，把这些文字保存下来。它的名字是<strong>"行星鉴定记录者"</strong>，这是那位老师的重要身份之一，也象征着对行星与文明的独立观察与记载。
+        </p>
+    </section>
+
+    <!-- 文章的意义 -->
+    <section class="about-section about-text">
+        <h1>文章的意义</h1>
+        <p>我的文章大致分为四类：</p>
+        <ul class="about-list">
+            <li><strong>神话之门：</strong>重读古老神话，发现其中隐藏的历史与科技。</li>
+            <li><strong>真相之镜：</strong>揭开社会深处的阴影与真相。</li>
+            <li><strong>文化之光：</strong>追溯文化现象的根源，探寻其真正的意义。</li>
+            <li><strong>时空之钥：</strong>探讨文明与宇宙的秘密，以及人类在其中的位置。</li>
+        </ul>
+        <p>这些文章既不是纯粹的历史，也不是单纯的幻想，而更像是一份份遗失的档案。</p>
+        <p>这些内容主要为<strong>有一定文化积累、具备生活阅历、受过高等教育、逻辑与思维敏锐、且具备正常社会认知的成年人</strong>而写，它们像一组深层的密码，更适合探索者而非过客。</p>
+        <p>读者读完这些文章后，会对地球的历史和世界的本质有一种前所未有的清晰感，那些零散的线索将逐渐拼成画面，帮助你看见隐藏的脉络。你将学会分辨信息背后的真与伪，能够验证历史中的断层与暗面，打破旧有的迷信与执念，甚至为长久困扰的问题找到意想不到的答案。
+        </p>
+    </section>
+
+    <!-- 网站愿景 -->
+    <section class="about-section about-text">
+        <h1>网站愿景</h1>
+        <p>我希望这里成为一个思想的避风港，一个能让探索者自由思考的地方。</p>
+        <p>在这里，没有绝对的真理，只有不同的线索与视角。</p>
+        <p>在这里，你可以质疑，可以验证，可以沉思，也可以发现属于你自己的"钥匙"。</p>
+        <p>这个避风港的最终愿景，是希望我们能以理性的目光，<strong>解密历史与科学的尘封档案，传承断裂的文化与历史，破除根深蒂固的迷信与愚昧，最终共同创造一个更加清醒、理智的文明世界。</strong></p>
+    </section>
+
+    <!-- 联系方式 -->
+    <section class="about-section about-text">
+        <h1>联系方式</h1>
+        <p>如果你愿意交流，可以在评论区留言，或通过以下方式找到我：</p>
+        <ul class="about-list">
+            <li>微信：
+                <span class="qr-trigger-wrapper">
+                    ijiayezi
+                    <div class="qr-popup">
+                        <img src="/uploads/wechat-qrcode.jpg" alt="微信二维码">
+                    </div>
+                </span>
+            </li>
+            <li>QQ群：<a
+                    href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=SNRUtpvSE-KsDFqRnDvs8AbecaXnJi5m&authKey=cDVyjfhmK9GqsDbBiQonG9D3Ln6TvAaRBQE1IIt3WmNSdxIbjWxopMI%2Fhq5nhpdU&noverify=0&group_code=323093341"
+                    target="_blank" rel="nofollow" class="about-link">323093341</a></li>
+        </ul>
+        <p>我也活跃在其他平台：</p>
+        <ul class="about-list">
+            <li>知乎：<a href="https://www.zhihu.com/people/ijiayezi" target="_blank" rel="nofollow"
+                    class="about-link">迦叶子</a></li>
+            <li>微信公众号：
+                <span class="qr-trigger-wrapper">
+                    行星鉴定记录者
+                    <div class="qr-popup">
+                        <img src="/uploads/wechat-official-qrcode.jpg" alt="公众号二维码">
+                    </div>
+                </span>
+            </li>
+        </ul>
+    </section>
+
+    <!-- 态度声明 -->
+    <section class="about-section about-text">
+        <h1>态度声明</h1>
+        <p>本站所有内容仅代表个人的思考与学习心得。</p>
+        <p>它们不是官方结论，也不是最终答案。</p>
+        <p><strong>真相的碎片，仍需要你亲自去拼凑。</strong></p>
+    </section>
+
+</div>
+
+{{ end }}

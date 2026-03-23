@@ -1,0 +1,59 @@
+baseURL = 'https://example.org/'
+languageCode = 'zh'
+defaultContentLanguage = 'zh'
+title = '行星鉴定记录者'
+theme = "PaperMod"
+# 开启 hasCJKLanguage 后，Hugo 会针对中文字符进行计数，而不是只找空格。
+hasCJKLanguage = true
+
+
+[params]
+  comments = true
+  ShowReadingTime = true
+  ShowPostNavLinks = true
+  # 在标题下方显示总字数
+  # ShowWordCount = true
+
+[permalinks]
+  posts = "/archives/:slug/"
+  categories = "/archives/category/:slug/"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+[menu]
+
+# 父级菜单
+[[menu.main]]
+    name = "文章"
+    url = "/posts/"
+    identifier = "posts" # 必须有一个唯一的标识符供子菜单连接
+    weight = 5
+
+# 子菜单
+[[menu.main]]
+    name = "神话之门"
+    url = "/archives/category/myth"
+    parent = "posts" # 指向父级的 identifier
+    weight = 1
+
+[[menu.main]]
+    name = "真相之镜"
+    url = "/archives/category/truth"
+    parent = "posts"
+    weight = 2
+
+[[menu.main]]
+    name = "文化之光"
+    url = "/archives/category/culture"
+    parent = "posts"
+    weight = 3
+
+[[menu.main]]
+    name = "时空之钥"
+    url = "/archives/category/spacetime"
+    parent = "posts"
+    weight = 4
+

@@ -1,0 +1,191 @@
+{{ define "main" }}
+
+<style>
+    /* 重置默认宽度以获得更好的排版 */
+    .main {
+        max-width: 900px;
+    }
+
+    .guide-wrapper {
+        line-height: 1.8;
+    }
+
+    .guide-title {
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: var(--primary);
+        margin-bottom: 30px;
+    }
+
+    .guide-intro {
+        text-align: center;
+        color: var(--secondary);
+        font-size: 1.05rem;
+        margin-bottom: 40px;
+    }
+
+    .guide-intro p {
+        margin: 8px 0;
+    }
+
+    .guide-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .guide-card {
+        background: var(--entry);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 30px;
+        transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, border-color 0.3s ease-out;
+    }
+
+    .guide-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        border-color: #FF8904;
+    }
+
+    [data-theme="dark"] .guide-card:hover {
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .guide-card-header {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin: 0 0 8px 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .guide-card-subtitle {
+        display: block;
+        font-style: italic;
+        color: var(--secondary);
+        margin-bottom: 16px;
+        font-size: 0.95rem;
+    }
+
+    .guide-card p {
+        color: var(--content);
+        margin-bottom: 8px;
+        font-size: 1rem;
+    }
+
+    .guide-card-actions {
+        margin-top: 24px;
+    }
+
+    .guide-btn {
+        display: inline-block;
+        background-color: #FF8904;
+        color: #fff;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background-color 0.2s ease;
+    }
+
+    .guide-btn:hover {
+        background-color: #e67a00;
+    }
+
+    .guide-outro {
+        text-align: center;
+        color: var(--secondary);
+        margin-top: 40px;
+        font-size: 1.05rem;
+    }
+
+    .guide-alert {
+        margin-top: 50px;
+        background-color: var(--entry);
+        border-left: 4px solid #FF8904;
+        padding: 20px;
+        border-radius: 12px;
+        font-size: 0.95rem;
+        color: var(--secondary);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .guide-alert strong {
+        color: var(--primary);
+        font-weight: 700;
+    }
+</style>
+
+<div class="guide-wrapper">
+    <h1 class="guide-title">📖 阅读指导</h1>
+
+    <div class="guide-intro">
+        <p>欢迎踏入这座隐秘的档案室。</p>
+        <p>或许，你曾在梦境中瞥见过奇异的符号；</p>
+        <p>或许，你曾在古老典籍的碎页间，捕捉到似真似幻的线索；</p>
+        <p>又或许，在某个深夜，你突然怀疑——这个世界，真的是我们以为的那样吗？</p>
+        <p>在这里，神话不止是故事，历史并非唯一真相。</p>
+        <p>你将顺着被尘封的脉络，穿越时间与空间的迷雾，</p>
+        <p>去寻找那些被遗忘、被掩盖，甚至被禁止言说的秘密。</p>
+        <p>我为你准备了四条探索之路，每一条都指向一片独特的未知：</p>
+    </div>
+
+    <div class="guide-cards">
+
+        <div class="guide-card">
+            <h2 class="guide-card-header"><span class="icon">🔮</span> 神话之门</h2>
+            <span class="guide-card-subtitle">遗忘的历史，从未远去。</span>
+            <p>如果你想追溯远古的足迹，探寻神话背后隐藏的智慧与科技，请从这里启程。</p>
+            <p>你会发现，神话只是人类遗忘的历史，魔法只是人类不了解的科学。</p>
+            <div class="guide-card-actions">
+                <a href="/archives/category/myth" class="guide-btn">进入阅读</a>
+            </div>
+        </div>
+
+        <div class="guide-card">
+            <h2 class="guide-card-header"><span class="icon">🔍</span> 真相之镜</h2>
+            <span class="guide-card-subtitle">你所熟知的世界，只是幻象。</span>
+            <p>若你渴望看清世界的根源和本质，直面隐藏在现实背后的力量，请凝视这面镜子。</p>
+            <p>它不会给你安慰，却能映照出权力的暗影、阴谋的网罗，以及那些操控社会的隐秘之手。</p>
+            <div class="guide-card-actions">
+                <a href="/archives/category/truth" class="guide-btn">进入阅读</a>
+            </div>
+        </div>
+
+        <div class="guide-card">
+            <h2 class="guide-card-header"><span class="icon">✨</span> 文化之光</h2>
+            <span class="guide-card-subtitle">每一道传统，都是通向智慧的路标。</span>
+            <p>当你想追溯文化的起源与演变，解读传统背后的哲思与智慧，这道光将照亮历史长河。</p>
+            <p>在这里，你能看见文字的根源、信仰的意义，以及文化中未曾被察觉的智慧。</p>
+            <div class="guide-card-actions">
+                <a href="/archives/category/culture" class="guide-btn">进入阅读</a>
+            </div>
+        </div>
+
+        <div class="guide-card">
+            <h2 class="guide-card-header"><span class="icon">🗝</span> 时空之钥</h2>
+            <span class="guide-card-subtitle">穿越时空，才能看见文明的真实面貌。</span>
+            <p>若你准备好打开通往宇宙深处的大门，解读太阳系与人类文明的真实历史，探寻时空与维度的奥秘，这把钥匙正静静等候。</p>
+            <p>它将带你穿越文明的兴衰与星际的轮回，揭示人类在浩瀚时空中的位置与使命。</p>
+            <div class="guide-card-actions">
+                <a href="/archives/category/spacetime" class="guide-btn">进入阅读</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="guide-outro">
+        <p>带上好奇与勇气出发吧，每一篇文章，都是通向未知的一把钥匙。</p>
+    </div>
+
+    <div class="guide-alert">
+        <strong>阅读提示：</strong>前三条探索之路，大多是我与老师探讨时留下的答案，内容通俗易懂，适合作为入门。而"时空之钥"，则像是老师的手记，是留给特定群体的讯息。只有在经历了前三道门的洗礼后，你才能真正理解那把钥匙的分量。
+    </div>
+
+</div>
+
+{{ end }}

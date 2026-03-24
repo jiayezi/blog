@@ -52,6 +52,6 @@ hugo --gc --minify
 # 4. Generate Pagefind Search Index
 echo "Running Pagefind..."
 # Add -y to prevent npm from requiring interactive Y/N prompts since there's no package.json
-npx -y pagefind --site public --language zh
+npx -y pagefind --site public
 
 echo "✅ Build completed successfully."

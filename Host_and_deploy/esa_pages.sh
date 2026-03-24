@@ -36,7 +36,7 @@ mkdir -p "${HOME}/.local/bin"
 export PATH="${HOME}/.local/bin:${PATH}"
 
 # Using curl with -LJO for safe following redirects, into a temp tarball
-curl -sL "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz" -o hugo.tar.gz
+curl -sL "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_linux-amd64.tar.gz" -o hugo.tar.gz
 tar -C "${HOME}/.local/bin" -xzf hugo.tar.gz hugo
 rm hugo.tar.gz
 

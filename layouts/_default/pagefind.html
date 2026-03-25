@@ -1,72 +1,40 @@
 {{- define "main" }}
 
-<header class="page-header">
-    <h2>{{ .Title }}
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-    </h2>
-</header>
-
-<div id="search" class="pagefind-ui-container"></div>
-
-<!-- Pagefind UI assets -->
 <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
 <script src="/pagefind/pagefind-ui.js"></script>
 
 <style>
-    /* 适配 PaperMod 的暗色模式和样式 */
+    /* 适配 PaperMod 的暗色模式 */
     :root {
         --pagefind-ui-primary: var(--primary);
         --pagefind-ui-text: var(--content);
         --pagefind-ui-background: var(--theme);
         --pagefind-ui-border: var(--border);
-        --pagefind-ui-tag: var(--tertiary);
-        --pagefind-ui-border-radius: 8px;
-        --pagefind-ui-font: inherit;
-    }
-
-    /* 优化搜索结果列表样式 */
-    .pagefind-ui__result {
-        background-color: var(--theme);
-        border-radius: var(--radius);
-        padding: 15px;
-        margin-bottom: 15px;
-        border: 1px solid var(--border);
-        /* 添加阴影增强层次感 */
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
 </style>
 
+<header class="page-header">
+    <h1>{{ .Title }}</h1>
+</header>
+
+<div id="search" class="pagefind-ui-container"></div>
+
 <script>
-    window.addEventListener('DOMContentLoaded', (event) => {
+    window.addEventListener('DOMContentLoaded', () => {
         new PagefindUI({
             element: "#search",
             showSubResults: true,
             translations: {
-                placeholder: "输入关键词开始检索...",
-                clear_search: "清除内容",
-                load_more: "加载更多结果",
-                search_label: "站点搜索",
-                filters_label: "过滤器",
-                zero_results: "未能在档案中找到关于 [SEARCH_TERM] 的记录",
-                many_results: "为您找到 [COUNT] 条关于 [SEARCH_TERM] 的记录",
-                one_result: "为您找到 1 条关于 [SEARCH_TERM] 的记录",
-                alt_search: "未找到 [SEARCH_TERM]。为您显示关于 [DIFFERENT_TERM] 的代替结果：",
-                search_suggestion: "未找到 [SEARCH_TERM]。您可以尝试搜索以下词汇：",
-                searching: "正在从深层维度检索 [SEARCH_TERM]..."
+                placeholder: "输入关键词开始检索..."
             }
         });
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const query = urlParams.get('q');
+        const query = new URLSearchParams(window.location.search).get('q');
         if (query) {
-            const searchInput = document.querySelector('.pagefind-ui__search-input');
-            if (searchInput) {
-                searchInput.value = query;
-                searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+            const input = document.querySelector('.pagefind-ui__search-input');
+            if (input) {
+                input.value = query;
+                input.dispatchEvent(new Event('input', { bubbles: true }));
             }
         }
     });

@@ -8,9 +8,6 @@ node_modules/
 # Executables
 hugo.exe
 
-# 忽略上传的图片
-static/images/
-
 package.json
 package-lock.json
 upload-r2.js

@@ -1,0 +1,103 @@
+{{ $password := .Get "password" | default "j" }}
+<style>
+    .password-form {
+        margin: 2rem 0;
+        padding: 2.5rem;
+        border-radius: 12px;
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        text-align: center;
+    }
+
+    .password-form h3 {
+        margin: 0 0 1.5rem 0;
+        font-size: 1.1rem;
+        color: var(--primary);
+    }
+
+    .input-group {
+        display: flex;
+        max-width: 400px;
+        margin: 0 auto;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .pwd-input {
+        flex: 1;
+        min-width: 200px;
+        padding: 10px 16px;
+        border-radius: 8px;
+        border: 2px solid var(--border);
+        background: var(--theme);
+        color: var(--content);
+        outline: none;
+    }
+
+    .pwd-input:focus {
+        border-color: var(--secondary);
+    }
+
+    .decrypt-btn {
+        padding: 10px 20px;
+        border-radius: 8px;
+        background: var(--primary);
+        color: var(--theme);
+        cursor: pointer;
+        font-weight: 600;
+        transition: transform 0.1s;
+    }
+
+    .decrypt-btn:active {
+        transform: scale(0.96);
+    }
+
+    .error-msg {
+        display: none;
+        color: #ff4d4f;
+        font-size: 0.85rem;
+        margin-top: 10px;
+    }
+</style>
+
+<!-- 只有密码通过才会显示内容 -->
+<div id="password-form" class="password-form">
+    <h3><span>🔒</span> 该章节内容已加密</h3>
+    <div class="input-group">
+        <input id="pwd-input" type="password" class="pwd-input" placeholder="请输入访问密码...">
+        <button id="decrypt-btn" class="decrypt-btn">解密并阅读</button>
+    </div>
+    <span id="error-msg" class="error-msg">❌ 密码有误，请重试</span>
+</div>
+
+<div id="encrypted-content" style="display:none;">
+    {{ .Inner | markdownify }}
+</div>
+
+<script>
+    (function () {
+        const btn = document.getElementById('decrypt-btn');
+        const input = document.getElementById('pwd-input');
+        const form = document.getElementById('password-form');
+        const content = document.getElementById('encrypted-content');
+        const error = document.getElementById('error-msg');
+        const realPwd = "{{ $password }}";
+
+        const doDecrypt = () => {
+            if (input.value === realPwd) {
+                form.style.display = 'none';
+                content.style.display = 'block';
+            } else {
+                error.style.display = 'block';
+                input.value = '';
+                input.focus();
+                setTimeout(() => { error.style.display = 'none'; }, 3000);
+            }
+        };
+
+        btn.onclick = doDecrypt;
+        input.onkeypress = (e) => { if (e.key === 'Enter') doDecrypt(); };
+    })();
+</script>

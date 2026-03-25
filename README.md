@@ -1,6 +1,6 @@
 # 个人博客
 
-这是一个基于 [Hugo](https://gohugo.io/) 的个人博客项目。
+这是一个基于 [Hugo](https://gohugo.io/) 的个人博客项目。使用[pagefind](https://pagefind.app/)实现站内搜索。
 
 ## 🚀 快速开始
 

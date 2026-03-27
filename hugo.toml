@@ -34,7 +34,7 @@ hasCJKLanguage = true
 
 # 父级菜单
 [[menu.main]]
-    name = "文章"
+    name = "全部文章"
     url = "/posts/"
     identifier = "posts" # 必须有一个唯一的标识符供子菜单连接
     weight = 5

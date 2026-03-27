@@ -1,6 +1,6 @@
 # 个人博客
 
-这是一个基于 [Hugo](https://gohugo.io/) 的个人博客项目。使用[pagefind](https://pagefind.app/)实现站内搜索。
+这是一个基于 [Hugo](https://gohugo.io/) 的个人博客项目。
 
 ## 🚀 快速开始
 
@@ -50,15 +50,19 @@ hugo new content content/posts/my-first-post.md
 
 本项目使用 [PaperMod](https://github.com/adityatelange/hugo-PaperMod) 主题。
 
+## 🔍 搜索
+
+本项目使用 [pagefind](https://pagefind.app/) 实现站内搜索。
+
 ## 🛠️ 构建和部署
 
 ### 构建
 
 ```bash
-hugo
+hugo && npx pagefind --site public
 ```
 
-这会在 `public/` 目录下生成静态网站文件。
+这会在 `public/` 目录下生成静态网站文件和搜索索引文件。
 
 ### 部署
 

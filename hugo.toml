@@ -1,4 +1,4 @@
-baseURL = 'https://jiayezi.cn/'
+baseURL = 'https://planetrec.org/'
 languageCode = 'zh'
 defaultContentLanguage = 'zh'
 title = '行星鉴定记录者'

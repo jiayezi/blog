@@ -11,3 +11,4 @@ package.json
 package-lock.json
 upload-r2.js
 check-r2-sync.js
+optimize-featured-images.js

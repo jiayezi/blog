@@ -11,3 +11,5 @@ package.json
 package-lock.json
 upload-r2.js
 check-r2-sync.js
+delete-r2-unused-sizes.js
+batch-rename-1080.js

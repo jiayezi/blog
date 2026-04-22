@@ -50,6 +50,16 @@ hugo new content content/posts/my-first-post.md
 
 本项目使用 [PaperMod](https://github.com/adityatelange/hugo-PaperMod) 主题。
 
+安装主题：
+```bash
+git submodule add <repository-url> themes/<theme-dir>
+```
+
+更新所有主题到最新版本：
+```bash
+git submodule update --remote
+```
+
 ## 🔍 搜索
 
 本项目使用 [pagefind](https://pagefind.app/) 实现站内搜索。
